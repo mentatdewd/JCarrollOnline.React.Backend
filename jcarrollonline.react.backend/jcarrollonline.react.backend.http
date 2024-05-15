@@ -1,0 +1,6 @@
+@jcarrollonline.react.backend_HostAddress = http://localhost:5258
+
+GET {{jcarrollonline.react.backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
