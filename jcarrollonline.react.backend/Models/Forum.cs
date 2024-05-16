@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace JCarrollOnlineV2.Entities
+namespace jcarrollonline.react.backend.Models.Entities
 {
     [Table("Fora")]
     public class Forum

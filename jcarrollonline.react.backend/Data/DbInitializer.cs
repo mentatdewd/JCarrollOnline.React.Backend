@@ -1,4 +1,4 @@
-﻿using JCarrollOnlineV2.Entities;
+﻿using jcarrollonline.react.backend.Models.Entities;
 
 namespace jcarrollonline.react.backend.Data
 {
@@ -10,7 +10,7 @@ namespace jcarrollonline.react.backend.Data
             dbContext.Database.EnsureCreated();
             if (dbContext.Forum.Any()) return;
 
-            var fora = new Forum[]
+            Forum[] fora = new Forum[]
             {
             new Forum{ Title = "C#", Description = "Discussions about the c# programming language.", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
             new Forum{ Title = "Mariners", Description = "Discussions about the Mariners.", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
@@ -24,8 +24,27 @@ namespace jcarrollonline.react.backend.Data
             //add other users
             };
 
-            foreach (var forum in fora)
+            foreach (Forum forum in fora)
                 dbContext.Forum.Add(forum);
+
+            ForumThread[] forumThreads = new ForumThread[]
+            {
+                new ForumThread{ Title="C# First Thread", Content="Contents of first C# thread",
+                Locked=false, CreatedAt=DateTime.UtcNow, UpdatedAt=DateTime.UtcNow,
+                PostNumber=1, ParentId=null, RootId=null, ForumId=1 },
+                new ForumThread{Title="C# Second Thread", Content="Contents of second C# thread",
+                Locked=false, CreatedAt=DateTime.UtcNow, UpdatedAt=DateTime.UtcNow,
+                PostNumber=1, ParentId=null, RootId=null, ForumId=1 },
+                new ForumThread{ Title="Drones First Thread", Content="Contents of first Drones thread",
+                Locked=false, CreatedAt=DateTime.UtcNow, UpdatedAt=DateTime.UtcNow,
+                PostNumber=1, ParentId=null, RootId=null, ForumId=3},
+                new ForumThread{ Title="News First Thread", Content="Contents of first News thread",
+                Locked=false, CreatedAt=DateTime.UtcNow, UpdatedAt=DateTime.UtcNow,
+                PostNumber=1, ParentId=null, RootId=null, ForumId=8},
+            };
+
+            foreach(ForumThread forumThread in forumThreads)
+                dbContext.ForumThread.Add(forumThread);
 
             dbContext.SaveChanges();
         }

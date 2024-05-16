@@ -1,0 +1,44 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace jcarrollonline.react.backend.Migrations
+{
+    /// <inheritdoc />
+    public partial class AddForumThreads : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_ForumDTO",
+                table: "ForumDTO");
+
+            migrationBuilder.RenameTable(
+                name: "ForumDTO",
+                newName: "Fora");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Fora",
+                table: "Fora",
+                column: "Id");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Fora",
+                table: "Fora");
+
+            migrationBuilder.RenameTable(
+                name: "Fora",
+                newName: "ForumDTO");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_ForumDTO",
+                table: "ForumDTO",
+                column: "Id");
+        }
+    }
+}

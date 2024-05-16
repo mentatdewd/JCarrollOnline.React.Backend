@@ -1,19 +1,19 @@
-﻿using JCarrollOnlineV2.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace jcarrollonline.react.backend.Models
+namespace jcarrollonline.react.backend.Models.Entities
 {
-    public class ForumPost
+    public class ForumThread
     {
         [Key]
         public int Id { get; set; }
 
         [StringLength(255)]
         [Required]
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; set; }
 
         [DataType(DataType.MultilineText)]
-        public string Content { get; set; } = string.Empty;
+        public string Content { get; set; }
 
         public bool Locked { get; set; }
 
@@ -26,14 +26,19 @@ namespace jcarrollonline.react.backend.Models
         [Required]
         public int PostNumber { get; set; }
 
+        // Will be null for no parent (root)
         public int? ParentId { get; set; }
 
+        // Will be null for root (no parent)
         public int? RootId { get; set; }
 
         //[Required]
         //public virtual ApplicationUser Author { get; set; }
 
+        public int ForumId { get; set; }
+
         [Required]
-        public virtual Forum Forum { get; set; } = new Forum();
+        [DeleteBehavior(DeleteBehavior.NoAction)]
+        public virtual Forum Forum { get; set; }
     }
 }
