@@ -1,5 +1,6 @@
 ﻿using jcarrollonline.react.backend.Data;
 using jcarrollonline.react.backend.Models.ViewModels;
+using jcarrollonline.react.backend.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,12 +52,15 @@ namespace jcarrollonline.react.backend.Controllers
 
             ApplicationUser newUser = new ApplicationUser()
             {
-                //FirstName = registerDTO.FirstName,
-                //LastName = registerDTO.LastName,
+                FirstName = registerDTO.FirstName,
+                LastName = registerDTO.LastName,
                 Email = registerDTO.EmailAddress,
                 UserName = registerDTO.UserName,
+                Custom = "",
+                PasswordHash = PasswordHasher.Hash(registerDTO.Password),
                 SecurityStamp = Guid.NewGuid().ToString()
             };
+
             IdentityResult result = await _userManager.CreateAsync(newUser, registerDTO.Password);
 
             if (result.Succeeded)
