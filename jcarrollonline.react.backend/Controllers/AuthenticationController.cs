@@ -35,8 +35,8 @@ namespace jcarrollonline.react.backend.Controllers
             _tokenValidationParameters = tokenValidationParameters;
         }
 
-        [HttpPost("register-user")]
-        public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromForm] RegisterDTO registerDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -51,8 +51,8 @@ namespace jcarrollonline.react.backend.Controllers
 
             ApplicationUser newUser = new ApplicationUser()
             {
-                FirstName = registerDTO.FirstName,
-                LastName = registerDTO.LastName,
+                //FirstName = registerDTO.FirstName,
+                //LastName = registerDTO.LastName,
                 Email = registerDTO.EmailAddress,
                 UserName = registerDTO.UserName,
                 SecurityStamp = Guid.NewGuid().ToString()
@@ -63,17 +63,17 @@ namespace jcarrollonline.react.backend.Controllers
             {
                 //Add user role
 
-                switch (registerDTO.Role)
-                {
-                    case UserRoles.Manager:
-                        await _userManager.AddToRoleAsync(newUser, UserRoles.Manager);
-                        break;
-                    case UserRoles.Student:
-                        await _userManager.AddToRoleAsync(newUser, UserRoles.Student);
-                        break;
-                    default:
-                        break;
-                }
+                //switch (registerDTO.Role)
+                //{
+                //    case UserRoles.Manager:
+                //        await _userManager.AddToRoleAsync(newUser, UserRoles.Manager);
+                //        break;
+                //    case UserRoles.Student:
+                //        await _userManager.AddToRoleAsync(newUser, UserRoles.Student);
+                //        break;
+                //    default:
+                //        break;
+                //}
 
 
                 return Ok("User created");
