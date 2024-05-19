@@ -1,6 +1,5 @@
 ﻿using jcarrollonline.react.backend.Data;
 using jcarrollonline.react.backend.Models.ViewModels;
-using jcarrollonline.react.backend.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +21,7 @@ namespace jcarrollonline.react.backend.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly TokenValidationParameters _tokenValidationParameters;
+        private readonly PasswordHasher<ApplicationUser> _passwordHasher = new PasswordHasher<ApplicationUser>();
 
         public AuthenticationController(UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -57,9 +57,10 @@ namespace jcarrollonline.react.backend.Controllers
                 Email = registerDTO.EmailAddress,
                 UserName = registerDTO.UserName,
                 Custom = "",
-                PasswordHash = PasswordHasher.Hash(registerDTO.Password),
                 SecurityStamp = Guid.NewGuid().ToString()
             };
+
+            newUser.PasswordHash = _passwordHasher.HashPassword(newUser, registerDTO.Password);
 
             IdentityResult result = await _userManager.CreateAsync(newUser, registerDTO.Password);
 
@@ -85,8 +86,8 @@ namespace jcarrollonline.react.backend.Controllers
             return BadRequest("User could not be created");
         }
 
-        [HttpPost("login-user")]
-        public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromForm] LoginDTO loginDTO)
         {
             if (!ModelState.IsValid)
             {
