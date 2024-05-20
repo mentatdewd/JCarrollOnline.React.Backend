@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SchoolApp.API.Data.Helpers
+﻿namespace jcarrollonline.react.backend.Data.Helpers
 {
     public static class UserRoles
     {
-        public const string Manager = "Manager";
-        public const string Student = "Student";
+        public const string Administrator = "Administrator";
+        public const string User = "User";
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace jcarrollonline.react.backend.Models.Entities
+namespace jcarrollonline.react.backend.Models
 {
     [Table("Fora")]
     public class Forum
@@ -26,5 +26,7 @@ namespace jcarrollonline.react.backend.Models.Entities
         [DataType(DataType.DateTime)]
         [Required]
         public DateTime UpdatedAt { get; set; } //:null => false
+
+        public virtual ICollection<ForumThread> Threads { get; }
     }
 }

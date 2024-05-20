@@ -1,13 +1,11 @@
 using jcarrollonline.react.backend.Data;
+using jcarrollonline.react.backend.Models;
 using Mapster;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Configuration;
-using SchoolApp.API.Data.Models;
-using System;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

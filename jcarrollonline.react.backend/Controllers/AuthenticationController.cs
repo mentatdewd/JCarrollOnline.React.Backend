@@ -1,11 +1,10 @@
 ﻿using jcarrollonline.react.backend.Data;
+using jcarrollonline.react.backend.Models;
 using jcarrollonline.react.backend.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using SchoolApp.API.Data.Helpers;
-using SchoolApp.API.Data.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -70,8 +69,8 @@ namespace jcarrollonline.react.backend.Controllers
 
                 //switch (registerDTO.Role)
                 //{
-                //    case UserRoles.Manager:
-                //        await _userManager.AddToRoleAsync(newUser, UserRoles.Manager);
+                //    case UserRoles.Administrator:
+                //        await _userManager.AddToRoleAsync(newUser, UserRoles.Administrator);
                 //        break;
                 //    case UserRoles.Student:
                 //        await _userManager.AddToRoleAsync(newUser, UserRoles.Student);

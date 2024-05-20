@@ -1,5 +1,5 @@
 ﻿using jcarrollonline.react.backend.Data;
-using jcarrollonline.react.backend.Models.Entities;
+using jcarrollonline.react.backend.Models;
 using jcarrollonline.react.backend.Models.ViewModels;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,7 @@ namespace jcarrollonline.react.backend.Controllers
         }
 
         [HttpGet()]
-        public ActionResult Fora()
+        public async Task<ActionResult> Fora()
         {
             DbSet<Forum> fora = _applicationDbContext.Forum;
 
@@ -32,15 +32,15 @@ namespace jcarrollonline.react.backend.Controllers
                 LastThreadPost = "",
             });
 
-            return Ok(forumDTOs.ToList());
+            return Ok(await forumDTOs.ToListAsync());
         }
 
         [HttpGet("{forumId}")]
-        public ActionResult ForumThreadList(int forumId)
+        public async Task<ActionResult> ForumThreadList(int forumId)
         {
             DbSet<ForumThread> forumThreads = _applicationDbContext.ForumThread;
 
-            Forum? forum = _applicationDbContext.Forum.FirstOrDefault(f => f.Id == forumId);
+            Forum? forum = await _applicationDbContext.Forum.FirstOrDefaultAsync(f => f.Id == forumId);
 
             if (forum == null)
             {
@@ -54,7 +54,7 @@ namespace jcarrollonline.react.backend.Controllers
                 {
                     Id = f.Id,
                     Title = f.Title,
-                    Description = f.Content,
+                    Content = f.Content,
                     PostCount = 0,
                     LastPost = "",
                     LastPostedDate = DateTime.Now,
@@ -65,7 +65,7 @@ namespace jcarrollonline.react.backend.Controllers
         }
 
         [HttpGet("{forumId}/{threadId}")]
-        public ActionResult ForumThread(int forumId, int threadId)
+        public async Task<ActionResult> ForumThread(int forumId, int threadId)
         {
             DbSet<ForumThread> forumThreads = _applicationDbContext.ForumThread;
 
@@ -73,13 +73,38 @@ namespace jcarrollonline.react.backend.Controllers
             {
                 Id = f.Id,
                 Title = f.Title,
-                Description = f.Content,
+                Content = f.Content,
                 PostCount = 0,
                 LastPost = "",
                 LastPostedDate = DateTime.Now,
             });
 
-            return Ok(forumThreadDTOs.ToList());
+            return Ok(await forumThreadDTOs.ToListAsync());
+        }
+
+        [HttpPost("create-forum")]
+        public async Task<ActionResult> CreateForum([FromForm] ForumCreateDTO forumDTO)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+
+            // Check for duplicate
+            var exists = await _applicationDbContext.Forum.SingleOrDefaultAsync(f => f.Title == forumDTO.Title);
+            if(exists != null)
+            {
+                return BadRequest($"Forum {forumDTO.Title} already exists"); 
+            }
+
+            Forum forum = new Forum()
+            {
+                Title = forumDTO.Title,
+                Description = forumDTO.Description,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            };
+
+            await _applicationDbContext.Forum.AddAsync(forum);
+            await _applicationDbContext.SaveChangesAsync();
+            return Ok();
         }
     }
 }

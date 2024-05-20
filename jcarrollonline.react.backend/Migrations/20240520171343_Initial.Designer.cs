@@ -12,8 +12,8 @@ using jcarrollonline.react.backend.Data;
 namespace jcarrollonline.react.backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240516185712_AddAuthentication")]
-    partial class AddAuthentication
+    [Migration("20240520171343_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,7 +158,7 @@ namespace jcarrollonline.react.backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SchoolApp.API.Data.Models.ApplicationUser", b =>
+            modelBuilder.Entity("jcarrollonline.react.backend.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -235,7 +235,86 @@ namespace jcarrollonline.react.backend.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("SchoolApp.API.Data.Models.RefreshToken", b =>
+            modelBuilder.Entity("jcarrollonline.react.backend.Models.Forum", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Fora");
+                });
+
+            modelBuilder.Entity("jcarrollonline.react.backend.Models.ForumThread", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ForumId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RootId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ForumId");
+
+                    b.ToTable("ForumThread");
+                });
+
+            modelBuilder.Entity("jcarrollonline.react.backend.Models.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -271,79 +350,6 @@ namespace jcarrollonline.react.backend.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
-            modelBuilder.Entity("jcarrollonline.react.backend.Models.Entities.Forum", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Fora");
-                });
-
-            modelBuilder.Entity("jcarrollonline.react.backend.Models.Entities.ForumThread", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ForumId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Locked")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PostNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RootId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ForumId");
-
-                    b.ToTable("ForumThread");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -355,7 +361,7 @@ namespace jcarrollonline.react.backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SchoolApp.API.Data.Models.ApplicationUser", null)
+                    b.HasOne("jcarrollonline.react.backend.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -364,7 +370,7 @@ namespace jcarrollonline.react.backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SchoolApp.API.Data.Models.ApplicationUser", null)
+                    b.HasOne("jcarrollonline.react.backend.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -379,7 +385,7 @@ namespace jcarrollonline.react.backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolApp.API.Data.Models.ApplicationUser", null)
+                    b.HasOne("jcarrollonline.react.backend.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -388,16 +394,35 @@ namespace jcarrollonline.react.backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SchoolApp.API.Data.Models.ApplicationUser", null)
+                    b.HasOne("jcarrollonline.react.backend.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SchoolApp.API.Data.Models.RefreshToken", b =>
+            modelBuilder.Entity("jcarrollonline.react.backend.Models.ForumThread", b =>
                 {
-                    b.HasOne("SchoolApp.API.Data.Models.ApplicationUser", "User")
+                    b.HasOne("jcarrollonline.react.backend.Models.ApplicationUser", "Author")
+                        .WithMany("ForumThreads")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("jcarrollonline.react.backend.Models.Forum", "Forum")
+                        .WithMany("Threads")
+                        .HasForeignKey("ForumId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Forum");
+                });
+
+            modelBuilder.Entity("jcarrollonline.react.backend.Models.RefreshToken", b =>
+                {
+                    b.HasOne("jcarrollonline.react.backend.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -406,15 +431,14 @@ namespace jcarrollonline.react.backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("jcarrollonline.react.backend.Models.Entities.ForumThread", b =>
+            modelBuilder.Entity("jcarrollonline.react.backend.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("jcarrollonline.react.backend.Models.Entities.Forum", "Forum")
-                        .WithMany()
-                        .HasForeignKey("ForumId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                    b.Navigation("ForumThreads");
+                });
 
-                    b.Navigation("Forum");
+            modelBuilder.Entity("jcarrollonline.react.backend.Models.Forum", b =>
+                {
+                    b.Navigation("Threads");
                 });
 #pragma warning restore 612, 618
         }

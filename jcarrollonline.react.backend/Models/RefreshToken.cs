@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SchoolApp.API.Data.Models
+namespace jcarrollonline.react.backend.Models
 {
     public class RefreshToken
     {

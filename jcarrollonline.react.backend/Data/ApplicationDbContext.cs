@@ -1,7 +1,7 @@
-﻿using jcarrollonline.react.backend.Models.Entities;
+﻿using jcarrollonline.react.backend.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SchoolApp.API.Data.Models;
+using System.Reflection.Metadata;
 
 namespace jcarrollonline.react.backend.Data
 {
@@ -13,5 +13,12 @@ namespace jcarrollonline.react.backend.Data
         public DbSet<Forum> Forum { get; set; }
         public DbSet<ForumThread> ForumThread { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<Forum>()
+            //    .HasMany(f => f.Threads);
+        }
     }
 }

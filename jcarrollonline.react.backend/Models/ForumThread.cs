@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace jcarrollonline.react.backend.Models.Entities
+namespace jcarrollonline.react.backend.Models
 {
     public class ForumThread
     {
@@ -32,13 +34,20 @@ namespace jcarrollonline.react.backend.Models.Entities
         // Will be null for root (no parent)
         public int? RootId { get; set; }
 
-        //[Required]
-        //public virtual ApplicationUser Author { get; set; }
+        [Required]
+        public string AuthorId { get; set; }
 
+        [Required]
+        [DeleteBehavior(DeleteBehavior.NoAction)]
+        [ForeignKey(nameof(AuthorId))]
+        public virtual ApplicationUser Author { get; set; }
+
+        [Required]
         public int ForumId { get; set; }
 
         [Required]
         [DeleteBehavior(DeleteBehavior.NoAction)]
+        [ForeignKey(nameof(ForumId))]
         public virtual Forum Forum { get; set; }
     }
 }
